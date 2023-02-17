@@ -14,19 +14,24 @@ export const SendSolForm: FC = () => {
         event.preventDefault()
         if (!connection || !publicKey) { return }
 
-        const transaction = new web3.Transaction()
-        const recipientPubKey = new web3.PublicKey(event.target.recipient.value)
+        try {
+            const transaction = new web3.Transaction()
+            const recipientPubKey = new web3.PublicKey(event.target.recipient.value)
+    
+            const instruction = web3.SystemProgram.transfer({
+                fromPubkey: publicKey,
+                toPubkey: recipientPubKey,
+                lamports: web3.LAMPORTS_PER_SOL * event.target.amount.value
+            })
+    
+            transaction.add(instruction)
+            sendTransaction(transaction, connection).then(sig => {
+                setTxSig(sig)
+            })
+        } catch (error) {
+            alert(error)
+        }
 
-        const instruction = web3.SystemProgram.transfer({
-            fromPubkey: publicKey,
-            toPubkey: recipientPubKey,
-            lamports: web3.LAMPORTS_PER_SOL * event.target.amount.value
-        })
-
-        transaction.add(instruction)
-        sendTransaction(transaction, connection).then(sig => {
-            setTxSig(sig)
-        })
         console.log(`Send ${event.target.amount.value} SOL to ${event.target.recipient.value}`)
     }
 
