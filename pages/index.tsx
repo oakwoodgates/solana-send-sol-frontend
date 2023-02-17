@@ -1,8 +1,11 @@
 import { NextPage } from 'next'
 import styles from '../styles/Home.module.css'
+import WalletContextProvider from '../components/WalletContextProvider'
+
 import { AppBar } from '../components/AppBar'
 import { SendSolForm } from '../components/SendSolForm'
 import { BalanceDisplay } from '../components/BalanceDisplay'
+
 import Head from 'next/head'
 
 const Home: NextPage = (props) => {
