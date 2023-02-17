@@ -25,9 +25,17 @@ export const SendSolForm: FC = () => {
             })
     
             transaction.add(instruction)
+
             sendTransaction(transaction, connection).then(sig => {
                 setTxSig(sig)
+                console.log(`You can view your transaction on the Solana Explorer at:\nhttps://explorer.solana.com/tx/${sig}?cluster=devnet`);
             })
+            /*
+            const sig = await web3.sendAndConfirmTransaction(connection, transaction, [publicKey]).then(sig =>{
+                setTxSig(sig)
+                console.log(`You can view your transaction on the Solana Explorer at:\nhttps://explorer.solana.com/tx/${sig}?cluster=devnet`);
+
+            }) */            
         } catch (error) {
             alert(error)
         }
